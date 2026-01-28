@@ -28,7 +28,17 @@ const { Option } = Select;
 
 function CryptoDetails(): JSX.Element {
   const { coinId } = useParams<CryptoRouteParams>();
-  const [timePeriod, setTimePeriod] = React.useState<Time>(Time.Weak);
+  
+  if (!coinId) {
+    return (
+      <Col className="coin-detail-container">
+        <Title level={2}>Error: Cryptocurrency not found</Title>
+        <p>Please select a valid cryptocurrency from the list.</p>
+      </Col>
+    );
+  }
+
+  const [timePeriod, setTimePeriod] = React.useState<Time>(Time.Week);
   const { data, isFetching } = useGetCryptoDetailsQuery(coinId);
   const { data: coinHistory } = useGetCryptoHistoryQuery({ coinId, timePeriod });
   const cryptoDetails = data?.data?.coin;

@@ -6,7 +6,7 @@ import { CryptoHistory } from './cryptoApiHistory.types';
 export enum Time {
   Hours = '3h',
   Day = '24h',
-  Weak = '7d',
+  Week = '7d',
   Month = '30d',
   Year = '1y',
   ThreeMonths = '3m',
@@ -20,8 +20,8 @@ type CoinHistoryType = {
 };
 
 const cryptoApiHeaders = {
-  'X-RapidAPI-Host': 'coinranking1.p.rapidapi.com',
-  'X-RapidAPI-Key': '9d8982b9d6msh66911b2988be85ap19edbajsnce665143e14c',
+  'X-RapidAPI-Host': import.meta.env.VITE_CRYPTO_API_HOST || 'coinranking1.p.rapidapi.com',
+  'X-RapidAPI-Key': import.meta.env.VITE_CRYPTO_API_KEY || '',
 };
 
 const baseUrl = 'https://coinranking1.p.rapidapi.com/';

@@ -3,8 +3,8 @@ import { ICryptoNewsDate, NewsCryptoQuery } from './cryptoNewsApi.types';
 
 const cryptoNewsHeaders = {
   'X-BingApis-SDK': 'true',
-  'X-RapidAPI-Host': 'bing-news-search1.p.rapidapi.com',
-  'X-RapidAPI-Key': '9d8982b9d6msh66911b2988be85ap19edbajsnce665143e14c',
+  'X-RapidAPI-Host': import.meta.env.VITE_NEWS_API_HOST || 'bing-news-search1.p.rapidapi.com',
+  'X-RapidAPI-Key': import.meta.env.VITE_NEWS_API_KEY || '',
 };
 
 const baseUrl = 'https://bing-news-search1.p.rapidapi.com';

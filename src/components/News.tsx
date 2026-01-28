@@ -1,4 +1,4 @@
-import { Avatar, Card, Col, Row, Select, Typography } from 'antd';
+import { Avatar, Card, Col, Row, Select, Typography, Empty, Spin } from 'antd';
 import moment from 'moment';
 import React from 'react';
 import { useGetCryptosQuery } from '../services/cryptoApi';
@@ -12,18 +12,37 @@ type NewsProps = {
 const { Text, Title } = Typography;
 const { Option } = Select;
 
-const demoImage = 'http://coinrevolution.com/wp-content/uploads/2020/06/cryptonews.jpg';
+const demoImage = 'https://coinrevolution.com/wp-content/uploads/2020/06/cryptonews.jpg';
 
 function News({ simplified }: NewsProps): JSX.Element {
   const [newsCategory, setNewsCategory] = React.useState<string>('Cryptocurrency');
-  const { data: cryptoNews } = useGetCryptoNewsQuery({
+  const { data: cryptoNews, isLoading, error } = useGetCryptoNewsQuery({
     newsCategory,
     count: simplified ? 6 : 12,
   });
   const { data } = useGetCryptosQuery(100);
 
-  if (!cryptoNews?.value) {
+  if (isLoading) {
     return <Loader />;
+  }
+
+  if (error) {
+    return (
+      <Empty
+        description={
+          <div>
+            <p>Failed to load news</p>
+            <p style={{ color: '#666', fontSize: '12px' }}>
+              The news API may be temporarily unavailable. Please try again later.
+            </p>
+          </div>
+        }
+      />
+    );
+  }
+
+  if (!cryptoNews?.value || cryptoNews.value.length === 0) {
+    return <Empty description="No news available for this category" />;
   }
 
   return (
@@ -50,7 +69,7 @@ function News({ simplified }: NewsProps): JSX.Element {
           </Select>
         </Col>
       )}
-      {cryptoNews?.value.map((news) => (
+      {cryptoNews.value.map((news) => (
         <Col xs={24} sm={12} lg={8} key={news.name}>
           <Card hoverable className="news-card">
             <a href={news.url} target="_blank" rel="noreferrer">
