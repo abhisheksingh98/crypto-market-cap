@@ -2,6 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { Coinranking } from './cryptoApi.types';
 import { CryptoDetailCoin } from './cryptoApiCoin.types';
 import { CryptoHistory } from './cryptoApiHistory.types';
+import { IExchangesData } from './cryptoExchanges';
 
 export enum Time {
   Hours = '3h',
@@ -44,7 +45,15 @@ export const cryptoApi = createApi({
       query: ({ coinId, timePeriod }) =>
         createRequest(`/coin/${coinId}/history?timePeriod=${timePeriod}`),
     }),
+    getExchanges: builder.query<IExchangesData, void>({
+      query: () => createRequest('/exchanges?limit=100'),
+    }),
   }),
 });
 
-export const { useGetCryptosQuery, useGetCryptoDetailsQuery, useGetCryptoHistoryQuery } = cryptoApi;
+export const {
+  useGetCryptosQuery,
+  useGetCryptoDetailsQuery,
+  useGetCryptoHistoryQuery,
+  useGetExchangesQuery,
+} = cryptoApi;

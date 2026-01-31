@@ -41,7 +41,14 @@ function News({ simplified }: NewsProps): JSX.Element {
     );
   }
 
-  if (!cryptoNews?.value || cryptoNews.value.length === 0) {
+  if (!cryptoNews?.value && !cryptoNews?.data) {
+    return <Empty description="No news available for this category" />;
+  }
+
+  // Support both old (value) and new (data) API response structures
+  const newsArticles = cryptoNews.data || cryptoNews.value || [];
+
+  if (newsArticles.length === 0) {
     return <Empty description="No news available for this category" />;
   }
 
@@ -69,37 +76,47 @@ function News({ simplified }: NewsProps): JSX.Element {
           </Select>
         </Col>
       )}
-      {cryptoNews.value.map((news) => (
-        <Col xs={24} sm={12} lg={8} key={news.name}>
-          <Card hoverable className="news-card">
-            <a href={news.url} target="_blank" rel="noreferrer">
-              <div className="news-image-container">
-                <Title className="news-title" level={4}>
-                  {news.name.length > 50 ? `${news.name.substring(0, 50)}...` : news.name}
-                </Title>
-              </div>
-              <div className="news-content">
-                <img src={news?.image?.thumbnail?.contentUrl || demoImage} alt={news.name} />
-                <p>
-                  {news.description.length > 100
-                    ? `${news.description.substring(0, 100)}...`
-                    : news.description}
-                </p>
-              </div>
-              <div className="provider-container">
-                <div>
-                  <Avatar
-                    src={news.provider[0]?.image?.thumbnail?.contentUrl || demoImage}
-                    alt="news"
-                  />
-                  <Text className="provider-name">{news.provider[0]?.name}</Text>
+      {newsArticles.map((news: any, index: number) => {
+        // Handle both old and new API response formats
+        const title = news.title || news.name;
+        const description = news.description || news.excerpt || '';
+        const imageUrl = news.thumbnail || news?.image?.thumbnail?.contentUrl || demoImage;
+        const providerName = news.source || news.provider?.[0]?.name || 'Unknown';
+        const providerImage = news.provider?.[0]?.image?.thumbnail?.contentUrl || demoImage;
+        const publishedDate = news.published_at || news.datePublished;
+
+        return (
+          <Col xs={24} sm={12} lg={8} key={news.url || index}>
+            <Card hoverable className="news-card">
+              <a href={news.url} target="_blank" rel="noreferrer">
+                <div className="news-image-container">
+                  <Title className="news-title" level={4}>
+                    {title && title.length > 50 ? `${title.substring(0, 50)}...` : title}
+                  </Title>
                 </div>
-                <Text>{moment(news.datePublished).startOf('s').fromNow()}</Text>
-              </div>
-            </a>
-          </Card>
-        </Col>
-      ))}
+                <div className="news-content">
+                  <img src={imageUrl} alt={title || 'news'} />
+                  <p>
+                    {description && description.length > 100
+                      ? `${description.substring(0, 100)}...`
+                      : description}
+                  </p>
+                </div>
+                <div className="provider-container">
+                  <div>
+                    <Avatar
+                      src={providerImage}
+                      alt="news"
+                    />
+                    <Text className="provider-name">{providerName}</Text>
+                  </div>
+                  {publishedDate && <Text>{moment(publishedDate).startOf('s').fromNow()}</Text>}
+                </div>
+              </a>
+            </Card>
+          </Col>
+        );
+      })}
     </Row>
   );
 }

@@ -78,13 +78,49 @@ export interface Value {
   video: Video;
 }
 
+// News-api14 response structure
+export interface NewsArticle {
+  title: string;
+  url: string;
+  source?: string;
+  excerpt?: string;
+  published_at?: string;
+  author?: string;
+  thumbnail?: string;
+  language?: string;
+  image?: {
+    thumbnail?: {
+      contentUrl?: string;
+    };
+  };
+  description?: string;
+  provider?: Array<{
+    name?: string;
+    image?: {
+      thumbnail?: {
+        contentUrl?: string;
+      };
+    };
+  }>;
+  datePublished?: Date | string;
+  name?: string;
+}
+
 export interface ICryptoNewsDate {
-  _type: string;
-  readLink: string;
-  queryContext: QueryContext;
-  totalEstimatedMatches: number;
-  sort: Sort[];
-  value: Value[];
+  // Bing News API fields (legacy)
+  _type?: string;
+  readLink?: string;
+  queryContext?: QueryContext;
+  totalEstimatedMatches?: number;
+  sort?: Sort[];
+  value?: Value[];
+  // News-api14 fields
+  success?: boolean;
+  data?: NewsArticle[];
+  totalHits?: number;
+  size?: number;
+  page?: number;
+  totalPages?: number;
 }
 
 export interface NewsCryptoQuery {
