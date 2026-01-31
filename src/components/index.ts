@@ -5,3 +5,4 @@ export { default as Homepage } from './Homepage';
 export { default as Loader } from './Loader';
 export { default as Navbar } from './Navbar';
 export { default as News } from './News';
+export { default as CryptoConverter } from './CryptoConverter';

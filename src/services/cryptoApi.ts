@@ -48,6 +48,13 @@ export const cryptoApi = createApi({
     getExchanges: builder.query<IExchangesData, void>({
       query: () => createRequest('/exchanges?limit=100'),
     }),
+    getReferenceCurrencies: builder.query<any, void>({
+      query: () => createRequest('/reference-currencies?types[]=fiat&limit=100'),
+    }),
+    getCryptoPrice: builder.query<any, { coinId: string; referenceCurrencyUuid: string }>({
+      query: ({ coinId, referenceCurrencyUuid }) =>
+        createRequest(`/coin/${coinId}?referenceCurrencyUuid=${referenceCurrencyUuid}`),
+    }),
   }),
 });
 
@@ -56,4 +63,6 @@ export const {
   useGetCryptoDetailsQuery,
   useGetCryptoHistoryQuery,
   useGetExchangesQuery,
+  useGetReferenceCurrenciesQuery,
+  useGetCryptoPriceQuery,
 } = cryptoApi;

@@ -1,7 +1,7 @@
 import { Layout, Space, Typography } from 'antd';
 import { Link, Route, Routes } from 'react-router-dom';
 import './App.css';
-import { Cryptocurrencies, CryptoDetails, Exchanges, Homepage, Navbar, News } from './components';
+import { Cryptocurrencies, CryptoDetails, Exchanges, Homepage, Navbar, News, CryptoConverter } from './components';
 
 function App(): JSX.Element {
   return (
@@ -18,6 +18,7 @@ function App(): JSX.Element {
               <Route path="cryptocurrencies" element={<Cryptocurrencies />} />
               <Route path="crypto/:coinId" element={<CryptoDetails />} />
               <Route path="/news" element={<News />} />
+              <Route path="/converter" element={<CryptoConverter />} />
             </Routes>
           </div>
         </Layout>
