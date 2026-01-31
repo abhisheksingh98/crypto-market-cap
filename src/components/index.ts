@@ -6,3 +6,4 @@ export { default as Loader } from './Loader';
 export { default as Navbar } from './Navbar';
 export { default as News } from './News';
 export { default as CryptoConverter } from './CryptoConverter';
+export { default as CryptoCompare } from './CryptoCompare';

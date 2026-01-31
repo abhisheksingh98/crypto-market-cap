@@ -32,7 +32,7 @@ const CryptoConverter: React.FC = () => {
 
     // Set default currencies
     useEffect(() => {
-        if (cryptoList?.data?.coins?.length > 1 && !fromCurrency) {
+        if (cryptoList?.data?.coins && cryptoList.data.coins.length > 1 && !fromCurrency) {
             setFromCurrency(cryptoList.data.coins[0].uuid);
             setToCurrency(cryptoList.data.coins[1].uuid);
         }
@@ -97,7 +97,8 @@ const CryptoConverter: React.FC = () => {
         if (!uuid) return { symbol: '', icon: '$', color: undefined };
 
         const coin = cryptoList?.data?.coins.find((c: any) => c.uuid === uuid);
-        if (coin) return { symbol: coin.symbol, icon: coin.sign || '$', color: coin.color };
+        // Cast coin to any to access potentially missing 'sign' property or use default
+        if (coin) return { symbol: coin.symbol, icon: (coin as any).sign || '$', color: coin.color };
 
         const fiat = referenceCurrencies?.data?.currencies.find((c: any) => c.uuid === uuid);
         if (fiat) return { symbol: fiat.symbol, icon: fiat.sign || '$', color: undefined };
@@ -132,12 +133,12 @@ const CryptoConverter: React.FC = () => {
                                     optionFilterProp="children"
                                 >
                                     <OptGroup label="Cryptocurrencies">
-                                        {cryptoList?.data?.coins.map((currency: any) => (
+                                        {cryptoList?.data?.coins?.map((currency: any) => (
                                             <Option key={currency.uuid} value={currency.uuid}>{currency.symbol}</Option>
                                         ))}
                                     </OptGroup>
                                     <OptGroup label="Fiat Currencies">
-                                        {referenceCurrencies?.data?.currencies.map((currency: any) => (
+                                        {referenceCurrencies?.data?.currencies?.map((currency: any) => (
                                             <Option key={currency.uuid} value={currency.uuid}>{currency.symbol}</Option>
                                         ))}
                                     </OptGroup>
@@ -173,12 +174,12 @@ const CryptoConverter: React.FC = () => {
                                     optionFilterProp="children"
                                 >
                                     <OptGroup label="Cryptocurrencies">
-                                        {cryptoList?.data?.coins.map((currency: any) => (
+                                        {cryptoList?.data?.coins?.map((currency: any) => (
                                             <Option key={currency.uuid} value={currency.uuid}>{currency.symbol}</Option>
                                         ))}
                                     </OptGroup>
                                     <OptGroup label="Fiat Currencies">
-                                        {referenceCurrencies?.data?.currencies.map((currency: any) => (
+                                        {referenceCurrencies?.data?.currencies?.map((currency: any) => (
                                             <Option key={currency.uuid} value={currency.uuid}>{currency.symbol}</Option>
                                         ))}
                                     </OptGroup>

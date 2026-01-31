@@ -5,6 +5,7 @@ import {
   MenuOutlined,
   MoneyCollectOutlined,
   CalculatorOutlined,
+  BarChartOutlined,
 } from '@ant-design/icons';
 import { Avatar, Button, Menu, Typography } from 'antd';
 import React, { useEffect } from 'react';
@@ -60,6 +61,9 @@ function Navbar(): JSX.Element {
           </Menu.Item>
           <Menu.Item key={5} icon={<CalculatorOutlined />}>
             <Link to="/converter">Converter</Link>
+          </Menu.Item>
+          <Menu.Item key={6} icon={<BarChartOutlined />}>
+            <Link to="/compare">Compare</Link>
           </Menu.Item>
         </Menu>
       )}
